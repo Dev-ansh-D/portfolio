@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion } from 'motion/react';
-import { Mail, Github, MapPin, Send, ArrowRight, Phone, CheckCircle2, AlertCircle } from 'lucide-react';
+import { Mail, Github, MapPin, Send, ArrowRight, Phone, CheckCircle2, AlertCircle, Linkedin } from 'lucide-react';
 import { db } from '../firebase';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 
@@ -96,28 +96,38 @@ export default function Contact() {
             
             <div className="space-y-8">
               {[
-                { icon: Mail, label: 'Primary Email', value: 'devanshdangwal73@gmail.com' },
-                { icon: MapPin, label: 'Location', value: 'Dehradun, India' },
-                { icon: Github, label: 'GitHub', value: 'github.com/Dev-ansh-D' },
-                { icon: Phone, label: 'Phone', value: '+91 7900619855' },
-              ].map((item, i) => (
-                <motion.div
-                  key={i}
-                  initial={{ opacity: 0, x: -20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: i * 0.1 }}
-                  className="flex items-center gap-6 group cursor-pointer"
-                >
-                  <div className="w-16 h-16 bg-white/10 rounded-2xl flex items-center justify-center group-hover:bg-white group-hover:text-blue-600 transition-all duration-500">
-                    <item.icon size={24} />
-                  </div>
-                  <div>
-                    <p className="text-xs font-bold text-blue-200 uppercase tracking-widest mb-1">{item.label}</p>
-                    <p className="text-xl font-bold text-white group-hover:text-blue-900 transition-colors">{item.value}</p>
-                  </div>
-                </motion.div>
-              ))}
+                { icon: Mail, label: 'Primary Email', value: 'devanshdangwal73@gmail.com', href: 'mailto:devanshdangwal73@gmail.com' },
+                { icon: MapPin, label: 'Location', value: 'Dehradun, India', href: null },
+                { icon: Linkedin, label: 'LinkedIn', value: 'devansh-dangwal', href: 'https://linkedin.com/in/devansh-dangwal-8829a4313' },
+                { icon: Github, label: 'GitHub', value: 'Dev-ansh-D', href: 'https://github.com/Dev-ansh-D' },
+              ].map((item, i) => {
+                const Content = (
+                  <motion.div
+                    key={i}
+                    initial={{ opacity: 0, x: -20 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: i * 0.1 }}
+                    className="flex items-center gap-6 group cursor-pointer"
+                  >
+                    <div className="w-16 h-16 bg-white/10 rounded-2xl flex items-center justify-center group-hover:bg-white group-hover:text-blue-600 transition-all duration-500">
+                      <item.icon size={24} />
+                    </div>
+                    <div>
+                      <p className="text-xs font-bold text-blue-200 uppercase tracking-widest mb-1">{item.label}</p>
+                      <p className="text-xl font-bold text-white group-hover:text-blue-900 transition-colors">{item.value}</p>
+                    </div>
+                  </motion.div>
+                );
+
+                return item.href ? (
+                  <a key={i} href={item.href} target={item.href.startsWith('http') ? "_blank" : undefined} rel="noreferrer" className="block">
+                    {Content}
+                  </a>
+                ) : (
+                  <div key={i}>{Content}</div>
+                );
+              })}
             </div>
           </motion.div>
 
@@ -215,10 +225,12 @@ export default function Contact() {
             </div>
           </div>
           <div className="flex items-center gap-8">
-            <a href="https://www.linkedin.com/in/devanshdangwal" target="_blank" rel="noreferrer" className="text-sm font-bold text-white hover:text-blue-400 transition-colors uppercase tracking-widest">
+            <a href="https://linkedin.com/in/devansh-dangwal-8829a4313" target="_blank" rel="noreferrer" className="flex items-center gap-2 text-sm font-bold text-white hover:text-blue-400 transition-colors uppercase tracking-widest">
+              <Linkedin size={18} />
               LinkedIn
             </a>
-            <a href="https://github.com/Dev-ansh-D" target="_blank" rel="noreferrer" className="text-sm font-bold text-white hover:text-blue-400 transition-colors uppercase tracking-widest">
+            <a href="https://github.com/Dev-ansh-D" target="_blank" rel="noreferrer" className="flex items-center gap-2 text-sm font-bold text-white hover:text-blue-400 transition-colors uppercase tracking-widest">
+              <Github size={18} />
               GitHub
             </a>
           </div>
